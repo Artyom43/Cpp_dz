@@ -1,6 +1,6 @@
 #include<iostream>
 
 int main() {
-    std::cout << "Hello, world!";
+    std::cout << "My first commit";
     return 0;
 }
