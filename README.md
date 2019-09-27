@@ -4,4 +4,4 @@
 
 Ways.cpp - задача "Дороги"
 
-svetofory.cpp - "Светофоры"
+lights.cpp - "Светофоры"
