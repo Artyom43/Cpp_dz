@@ -5,3 +5,5 @@
 lights.cpp - "Дороги"
 
 ways.cpp - "Светофоры"
+
+Graph_bypass - "Обход графа"
