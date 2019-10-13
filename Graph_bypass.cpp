@@ -10,6 +10,8 @@ public:
         is_directed_ = is_directed;
     }
 
+    virtual std::vector<Vertex> getNeighbors(Vertex v) const = 0;
+
     Vertex getVertexCount() const {
         return vertex_count_;
     }
@@ -38,7 +40,7 @@ public:
             }
     }
 
-    std::vector<Vertex> getNeighbours(Vertex v) const {
+    std::vector<Vertex> getNeighbors(Vertex v) const override{
         return edge_list_.at(v);
     }
 
@@ -55,7 +57,7 @@ namespace GraphProcessing{
 
     enum VertexMark {WHITE, BLACK, GRAY};
 
-    std::vector<VertexMark> dfsVisitV(const GraphAdjList& g, Vertex v, std::vector<VertexMark>& color) {
+    std::vector<VertexMark> dfsVisitV(const Graph& g, Vertex v, std::vector<VertexMark>& color) {
         color[v] = GRAY;
         for (u : g.getNeighbors(v)) {
             if (color[u] == WHITE) {
@@ -66,7 +68,7 @@ namespace GraphProcessing{
         return color;
     }
 
-    Vertex getCountOfVertexInOneComponent(const GraphAdjList& g, Vertex v) {
+    Vertex getCountOfVertexInOneComponent(const Graph& g, Vertex v) {
         size_t result = 0;
         std::vector<VertexMark> color = std::vector<VertexMark>{g.getVertexCount(), WHITE};
         dfsVisitV(g, v, color);
