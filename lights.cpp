@@ -1,20 +1,17 @@
 #include <iostream>
 #include<vector>
+#include <exception>
+
+typedef size_t Vertex;
 
 class Graph{
 public:
-    typedef size_t Vertex;
-
     size_t getVertexCount() const;
-    virtual void addEdge(const Vertex& start, const Vertex& finish) {
-        ++edge_count_;
-    }
-
 
 protected:
-    size_t vertex_count_; //get
-    size_t edge_count_;   //get
-    bool is_directed_;    //get
+    size_t vertex_count_;
+    size_t edge_count_;
+    bool is_directed_;
 
 };
 
@@ -22,14 +19,22 @@ protected:
 class GraphAdjMatrix: public Graph {
 public:
     GraphAdjMatrix(size_t vertex_count, const std::vector<std::vector<int>>& edge_matrix, bool is_directed = 0) {
+        if (edge_matrix.size() != vertex_count) {
+            throw std::runtime_error("wrong matrix size");
+        }
+        for (int i =0; i < vertex_count; ++i) {
+            if (edge_matrix_[i].size() != vertex_count) {
+                throw std::runtime_error("wrong time error");
+            }
+        }
         vertex_count_ = vertex_count;
         edge_matrix_ = edge_matrix;
     }
 
     size_t getEdgeCount() {
         int result = 0;
-        for (int i = 0; i < vertex_count_; ++i) {
-            for (int j = 0; j < vertex_count_; ++j) {
+        for (Vertex i = 0; i < vertex_count_; ++i) {
+            for (Vertex j = 0; j < vertex_count_; ++j) {
                 result += edge_matrix_[i][j];
             }
         }
@@ -43,18 +48,18 @@ private:
 
 
 int main() {
-    int n;
-    std::cin >> n;
-    std::vector<std::vector<int>> edge_matrix(n, std::vector<int>(n));
+    int vertex_count;
+    std::cin >> vertex_count;
+    std::vector<std::vector<int>> edge_matrix(vertex_count, std::vector<int>(vertex_count));
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
+    for (Vertex i = 0; i < vertex_count; ++i) {
+        for (Vertex j = 0; j < vertex_count; ++j) {
             std::cin >> edge_matrix[i][j];
         }
     }
-    GraphAdjMatrix G(n, edge_matrix, false);
+    GraphAdjMatrix graph(vertex_count, edge_matrix);
 
-    std::cout << G.getEdgeCount();
+    std::cout << graph.getEdgeCount();
 
 
     return 0;
