@@ -14,6 +14,7 @@ public:
     }
 
     virtual std::vector<size_t> getNeighbors(Vertex v) const = 0;
+    virtual void addEdge(Vertex v, Vertex u) = 0;
 
     size_t getVertexCount() const {
         return vertex_count_;
@@ -62,6 +63,33 @@ public:
             edge_count_ /= 2;
         }
 
+    void addEdge(Vertex v, Vertex u) override {
+        if (v >= vertex_count_ || u >= vertex_count_) {
+            throw std::runtime_error("Invalid vertex input");
+        }
+        if (is_directed_ == false) {
+            for (auto neighbor : getNeighbors(u)) {
+                if (neighbor == v) {
+                    return;
+                }
+            }
+            for (auto neighbor : getNeighbors(v)) {
+                if (neighbor == u) {
+                    return;
+                }
+            }
+            edge_list_[u].push_back(v);
+            edge_list_[v].push_back(u);
+        } else {
+            for (auto neighbor : getNeighbors(v)) {
+                if (neighbor == u) {
+                    return;
+                }
+            }
+            edge_list_[v].push_back(u);
+        }
+    }
+
     std::vector<Vertex> getNeighbors(Vertex v) const override {
         return edge_list_[v];
     }
@@ -78,7 +106,7 @@ private:
 /*=============================================Functions=================================================*/
 
 
-namespace GraphProcessing{
+namespace GraphProcessing {
 
     enum VertexMark {WHITE, BLACK, GRAY};
 
