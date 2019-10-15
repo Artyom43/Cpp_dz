@@ -62,7 +62,7 @@ public:
             edge_count_ /= 2;
         }
 
-    std::vector<Vertex> getNeighbors(Vertex v) const override{
+    std::vector<Vertex> getNeighbors(Vertex v) const override {
         return edge_list_[v];
     }
 
